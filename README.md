@@ -26,7 +26,7 @@ As this extension is not currently hosted on the Chrome Web Store, manual instal
 
 ### Step 1: Download the Release
 
-*   Navigate to the [Release page](https://github.com/YOUR_USERNAME/TDTU-All-in-One-Optimizer/releases).
+*   Navigate to the [Release page](https://github.com/DasTarrVn/TDTU-Two-in-One-Optimizer/releases).
 *   Under the **Assets** section, download the `TDTUOptimizer.zip` file to your local machine.
 
 ### Step 2: Extract the Archive
