@@ -3,6 +3,12 @@
 An extension designed to automate the login process and prevent session timeouts (auto-logout) for both the TDTU Student Portal and E-Learning platforms. It features an intuitive UI with independent toggles for each system.
 
 ## Features
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/61f702bc-3602-40de-b23a-7ed1c29ef429" width="350" alt="Portal UI">
+  <img src="https://github.com/user-attachments/assets/79e5a13d-7256-45bc-825f-0ec5e86fa429" width="350" alt="Elearning UI">
+</p>
+
 *   **Auto Login:** Automatically fills in credentials and logs you into the Portal and E-learning systems.
 *   **Keep Alive:** Prevents auto-logout by maintaining the session in the background.
 *   **Independent Controls:** Turn the extension on/off separately for the Portal and E-Learning.
@@ -16,7 +22,7 @@ As this extension is not currently hosted on the Chrome Web Store, manual instal
 
 ### Step 1: Download the Release
 
-*   Navigate to the [Release page](https://github.com/YOUR_USERNAME/TDTU-All-in-One-Optimizer/releases). *(Remember to replace this link with your actual release link later)*
+*   Navigate to the [Release page](https://github.com/YOUR_USERNAME/TDTU-All-in-One-Optimizer/releases).
 *   Under the **Assets** section, download the `TDTUOptimizer.zip` file to your local machine.
 
 ### Step 2: Extract the Archive
