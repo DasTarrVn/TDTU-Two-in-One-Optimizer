@@ -1,4 +1,4 @@
-# TDTU Two-in-One Optimizer
+<img width="232" height="36" alt="{ECB6A52D-0ED3-4DF7-BDA4-A7A351C91F92}" src="https://github.com/user-attachments/assets/25f4cc11-f270-4693-9dca-17f73598b5a1" /># TDTU Two-in-One Optimizer
 
 An extension designed to automate the login process and prevent session timeouts (auto-logout) for both the TDTU Student Portal and E-Learning platforms. It features an intuitive UI with independent toggles for each system.
 
@@ -17,7 +17,10 @@ An extension designed to automate the login process and prevent session timeouts
 *   **Popup Auto-Dismiss:** Automatically closes annoying popups (such as proverbs or promoting politeness) immediately upon logging into the Portal.
 *   **Smart Portal Redirect:** Automatically navigates directly to the "Trang chủ" section of the Student Portal instead of stopping at the "Cổng thông tin sinh viên" landing page.
   <img width="351" height="72" alt="3ui" src="https://github.com/user-attachments/assets/01cdc1a4-260a-4aba-99e6-54aa2ca0aa56" />
+  
 *   **E-Learning Dashboard Priority:** Automatically redirects to the "Dashboard" instead of the default "Site home" (executes once upon login), helping you access your courses faster.
+  <img width="232" height="36" alt="4ui" src="https://github.com/user-attachments/assets/4dd1032c-362e-4f12-818e-4620286e427e" />
+
 *   Sometimes it doesn't work well
 ---
 
