@@ -1,4 +1,4 @@
-# TDTU All-in-One Optimizer
+# TDTU Two-in-One Optimizer
 
 An extension designed to automate the login process and prevent session timeouts (auto-logout) for both the TDTU Student Portal and E-Learning platforms. It features an intuitive UI with independent toggles for each system.
 
