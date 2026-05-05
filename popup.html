@@ -79,24 +79,18 @@
             color: #444;
         }
 
-        .input-group input[type="text"],
-        .input-group input[type="password"] {
+        .input-group input {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
             outline: none;
-            transition: 0.2s;
-        }
-
-        .input-group input:focus {
-            border-color: #888;
         }
 
         .checkbox-group {
-            margin-bottom: 10px;
-            font-size: 13px;
+            margin-bottom: 8px;
+            font-size: 12.5px;
             display: flex;
             align-items: center;
         }
@@ -128,30 +122,18 @@
             background-color: #d32f2f;
         }
 
-        .btn-portal:hover {
-            background-color: #b71c1c;
-        }
-
         .btn-elearn {
             background-color: #1976d2;
-        }
-
-        .btn-elearn:hover {
-            background-color: #115293;
         }
 
         .btn-dark {
             background-color: #555;
         }
 
-        .btn-dark:hover {
-            background-color: #333;
-        }
-
         #status {
             margin-top: 10px;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             color: green;
             display: none;
         }
@@ -169,14 +151,12 @@
 <body>
     <div class="header">
         <img src="avatar.png" alt="Avatar" class="avatar">
-        <div class="header-title">DasTarrVn 💕</div>
+        <div class="header-title">Hi, Đức Anh! 👋</div>
     </div>
-
     <div class="tabs">
         <div class="tab active portal-tab" id="tabPortal">Portal</div>
         <div class="tab elearn-tab" id="tabElearn">E-Learning</div>
     </div>
-
     <div class="content">
         <div id="settingsPortal" class="site-settings active">
             <div class="input-group">
@@ -192,11 +172,18 @@
                 <label for="portalAutoLogin">Auto Login Portal</label>
             </div>
             <div class="checkbox-group">
+                <input type="checkbox" id="portalAutoMain">
+                <label for="portalAutoMain">Direct to "Trang Chủ" from CTTSV</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="portalBlockPopup">
+                <label for="portalBlockPopup">Block School Ads</label>
+            </div>
+            <div class="checkbox-group">
                 <input type="checkbox" id="portalKeepAlive">
                 <label for="portalKeepAlive">Prevent Auto Logout Portal</label>
             </div>
         </div>
-
         <div id="settingsElearn" class="site-settings">
             <div class="input-group">
                 <label>E-Learning Username:</label>
@@ -211,16 +198,18 @@
                 <label for="elearnAutoLogin">Auto Login E-Learning</label>
             </div>
             <div class="checkbox-group">
+                <input type="checkbox" id="elearnAutoDashboard">
+                <label for="elearnAutoDashboard">Auto select Dashboard</label>
+            </div>
+            <div class="checkbox-group">
                 <input type="checkbox" id="elearnKeepAlive">
                 <label for="elearnKeepAlive">Prevent Auto Logout E-Learning</label>
             </div>
         </div>
-
         <button id="saveBtn" class="btn-portal">Save Settings</button>
-        <button id="toggleExtBtn" class="btn-portal">Portal: ON (Click to Pause)</button>
+        <button id="toggleExtBtn" class="btn-portal">Portal: ON</button>
         <div id="status">Saved successfully!</div>
     </div>
-
     <script src="popup.js"></script>
 </body>
 
