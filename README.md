@@ -16,6 +16,7 @@ An extension designed to automate the login process and prevent session timeouts
 ### New in Version 1.1
 *   **Popup Auto-Dismiss:** Automatically closes annoying popups (such as proverbs or promoting politeness) immediately upon logging into the Portal.
 *   **Smart Portal Redirect:** Automatically navigates directly to the "Trang chủ" section of the Student Portal instead of stopping at the "Cổng thông tin sinh viên" landing page.
+  <img width="351" height="72" alt="3ui" src="https://github.com/user-attachments/assets/01cdc1a4-260a-4aba-99e6-54aa2ca0aa56" />
 *   **E-Learning Dashboard Priority:** Automatically redirects to the "Dashboard" instead of the default "Site home" (executes once upon login), helping you access your courses faster.
 *   Sometimes it doesn't work well
 ---
