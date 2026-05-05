@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 280px;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .tabs {
+            display: flex;
+            cursor: pointer;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: bold;
+            background: #eee;
+            color: #777;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .tab.active.portal-tab {
+            background: white;
+            color: #d32f2f;
+            border-bottom: 2px solid #d32f2f;
+        }
+
+        .tab.active.elearn-tab {
+            background: white;
+            color: #1976d2;
+            border-bottom: 2px solid #1976d2;
+        }
+
+        .content {
+            padding: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-portal {
+            background-color: #d32f2f;
+        }
+
+        .btn-portal:hover {
+            background-color: #b71c1c;
+        }
+
+        .btn-elearn {
+            background-color: #1976d2;
+        }
+
+        .btn-elearn:hover {
+            background-color: #115293;
+        }
+
+        .btn-dark {
+            background-color: #555;
+        }
+
+        .btn-dark:hover {
+            background-color: #333;
+        }
+
+        #status {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: green;
+            display: none;
+        }
+
+        .site-settings {
+            display: none;
+        }
+
+        .site-settings.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tabs">
+        <div class="tab active portal-tab" id="tabPortal">Portal</div>
+        <div class="tab elearn-tab" id="tabElearn">E-Learning</div>
+    </div>
+
+    <div class="content">
+        <div id="settingsPortal" class="site-settings active">
+            <div class="input-group">
+                <label>Portal MSSV:</label>
+                <input type="text" id="portalMssv" placeholder="Enter Portal MSSV">
+            </div>
+            <div class="input-group">
+                <label>Portal Password:</label>
+                <input type="password" id="portalPassword" placeholder="Enter Portal Password">
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="portalAutoLogin">
+                <label for="portalAutoLogin">Auto Login Portal</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="portalKeepAlive">
+                <label for="portalKeepAlive">Prevent Auto Logout Portal</label>
+            </div>
+        </div>
+
+        <div id="settingsElearn" class="site-settings">
+            <div class="input-group">
+                <label>E-Learning Username:</label>
+                <input type="text" id="elearnMssv" placeholder="Enter E-Learning Username">
+            </div>
+            <div class="input-group">
+                <label>E-Learning Password:</label>
+                <input type="password" id="elearnPassword" placeholder="Enter E-Learning Password">
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="elearnAutoLogin">
+                <label for="elearnAutoLogin">Auto Login E-Learning</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="elearnKeepAlive">
+                <label for="elearnKeepAlive">Prevent Auto Logout E-Learning</label>
+            </div>
+        </div>
+
+        <button id="saveBtn" class="btn-portal">Save Settings</button>
+        <button id="toggleExtBtn" class="btn-portal">Portal: ON (Click to Pause)</button>
+        <div id="status">Saved successfully!</div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
