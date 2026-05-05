@@ -32,35 +32,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabPortal.addEventListener('click', () => {
         currentTab = 'portal';
-        tabPortal.classList.add('active'); tabElearn.classList.remove('active');
-        settingsPortal.classList.add('active'); settingsElearn.classList.remove('active');
+        tabPortal.classList.add('active');
+        tabElearn.classList.remove('active');
+        settingsPortal.classList.add('active');
+        settingsElearn.classList.remove('active');
         saveBtn.className = 'btn-portal';
         updateToggleButton();
     });
 
     tabElearn.addEventListener('click', () => {
         currentTab = 'elearn';
-        tabElearn.classList.add('active'); tabPortal.classList.remove('active');
-        settingsElearn.classList.add('active'); settingsPortal.classList.remove('active');
+        tabElearn.classList.add('active');
+        tabPortal.classList.remove('active');
+        settingsElearn.classList.add('active');
+        settingsPortal.classList.remove('active');
         saveBtn.className = 'btn-elearn';
         updateToggleButton();
     });
 
     chrome.storage.local.get([
-        'isPortalActive', 'isElearnActive', 'portalMssv', 'portalPassword', 'portalAutoLogin',
-        'portalAutoMain', 'portalBlockPopup', 'portalKeepAlive', 'elearnMssv',
-        'elearnPassword', 'elearnAutoLogin', 'elearnAutoDashboard', 'elearnKeepAlive'
+        'isPortalActive', 'isElearnActive',
+        'portalMssv', 'portalPassword', 'portalAutoLogin', 'portalKeepAlive', 'portalBlockAds', 'portalAutoMain',
+        'elearnMssv', 'elearnPassword', 'elearnAutoLogin', 'elearnKeepAlive', 'elearnAutoDashboard'
     ], (data) => {
         isPortalActive = data.isPortalActive !== false;
         isElearnActive = data.isElearnActive !== false;
         updateToggleButton();
 
-        const fields = ['portalMssv', 'portalPassword', 'portalAutoLogin', 'portalAutoMain', 'portalBlockPopup', 'portalKeepAlive', 'elearnMssv', 'elearnPassword', 'elearnAutoLogin', 'elearnAutoDashboard', 'elearnKeepAlive'];
-        fields.forEach(f => {
-            const el = document.getElementById(f);
-            if (el.type === 'checkbox') el.checked = data[f] !== undefined ? data[f] : false;
-            else el.value = data[f] || '';
-        });
+        if (data.portalMssv) document.getElementById('portalMssv').value = data.portalMssv;
+        if (data.portalPassword) document.getElementById('portalPassword').value = data.portalPassword;
+        if (data.portalAutoLogin !== undefined) document.getElementById('portalAutoLogin').checked = data.portalAutoLogin;
+        if (data.portalKeepAlive !== undefined) document.getElementById('portalKeepAlive').checked = data.portalKeepAlive;
+        if (data.portalBlockAds !== undefined) document.getElementById('portalBlockAds').checked = data.portalBlockAds;
+        if (data.portalAutoMain !== undefined) document.getElementById('portalAutoMain').checked = data.portalAutoMain;
+
+        if (data.elearnMssv) document.getElementById('elearnMssv').value = data.elearnMssv;
+        if (data.elearnPassword) document.getElementById('elearnPassword').value = data.elearnPassword;
+        if (data.elearnAutoLogin !== undefined) document.getElementById('elearnAutoLogin').checked = data.elearnAutoLogin;
+        if (data.elearnKeepAlive !== undefined) document.getElementById('elearnKeepAlive').checked = data.elearnKeepAlive;
+        if (data.elearnAutoDashboard !== undefined) document.getElementById('elearnAutoDashboard').checked = data.elearnAutoDashboard;
     });
 
     toggleExtBtn.addEventListener('click', () => {
@@ -73,13 +83,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    saveBtn.addEventListener('click', () => {
-        const settings = {};
-        ['portalMssv', 'portalPassword', 'portalAutoLogin', 'portalAutoMain', 'portalBlockPopup', 'portalKeepAlive', 'elearnMssv', 'elearnPassword', 'elearnAutoLogin', 'elearnAutoDashboard', 'elearnKeepAlive'].forEach(f => {
-            const el = document.getElementById(f);
-            settings[f] = el.type === 'checkbox' ? el.checked : el.value;
-        });
-        chrome.storage.local.set(settings, () => {
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        const portalMssv = document.getElementById('portalMssv').value;
+        const portalPassword = document.getElementById('portalPassword').value;
+        const portalAutoLogin = document.getElementById('portalAutoLogin').checked;
+        const portalKeepAlive = document.getElementById('portalKeepAlive').checked;
+        const portalBlockAds = document.getElementById('portalBlockAds').checked;
+        const portalAutoMain = document.getElementById('portalAutoMain').checked;
+
+        const elearnMssv = document.getElementById('elearnMssv').value;
+        const elearnPassword = document.getElementById('elearnPassword').value;
+        const elearnAutoLogin = document.getElementById('elearnAutoLogin').checked;
+        const elearnKeepAlive = document.getElementById('elearnKeepAlive').checked;
+        const elearnAutoDashboard = document.getElementById('elearnAutoDashboard').checked;
+
+        chrome.storage.local.set({
+            portalMssv, portalPassword, portalAutoLogin, portalKeepAlive, portalBlockAds, portalAutoMain,
+            elearnMssv, elearnPassword, elearnAutoLogin, elearnKeepAlive, elearnAutoDashboard
+        }, () => {
             const status = document.getElementById('status');
             status.style.display = 'block';
             setTimeout(() => status.style.display = 'none', 2000);
