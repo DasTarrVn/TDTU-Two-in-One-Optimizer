@@ -13,7 +13,11 @@ An extension designed to automate the login process and prevent session timeouts
 *   **Keep Alive:** Prevents auto-logout by maintaining the session in the background.
 *   **Independent Controls:** Turn the extension on/off separately for the Portal and E-Learning.
 *   **Smart Recognition:** Automatically detects login forms and handles "Already logged in" conflicts on Moodle.
-
+### New in Version 1.1
+*   **Popup Auto-Dismiss:** Automatically closes annoying popups (such as proverbs or promoting politeness) immediately upon logging into the Portal.
+*   **Smart Portal Redirect:** Automatically navigates directly to the "Trang chủ" section of the Student Portal instead of stopping at the "Cổng thông tin sinh viên" landing page.
+*   **E-Learning Dashboard Priority:** Automatically redirects to the "Dashboard" instead of the default "Site home" (executes once upon login), helping you access your courses faster.
+*   Sometimes it doesn't work well
 ---
 
 ## Installation Guide
