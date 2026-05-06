@@ -1,10 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tabPortal = document.getElementById('tabPortal');
-    const tabElearn = document.getElementById('tabElearn');
-    const settingsPortal = document.getElementById('settingsPortal');
-    const settingsElearn = document.getElementById('settingsElearn');
-    const saveBtn = document.getElementById('saveBtn');
-    const toggleExtBtn = document.getElementById('toggleExtBtn');
+    // Cache DOM Elements
+    const elements = {
+        tabPortal: document.getElementById('tabPortal'),
+        tabElearn: document.getElementById('tabElearn'),
+        settingsPortal: document.getElementById('settingsPortal'),
+        settingsElearn: document.getElementById('settingsElearn'),
+        saveBtn: document.getElementById('saveBtn'),
+        toggleExtBtn: document.getElementById('toggleExtBtn'),
+        status: document.getElementById('status')
+    };
+
+    const inputs = {
+        portalMssv: document.getElementById('portalMssv'),
+        portalPassword: document.getElementById('portalPassword'),
+        portalAutoLogin: document.getElementById('portalAutoLogin'),
+        portalKeepAlive: document.getElementById('portalKeepAlive'),
+        portalBlockAds: document.getElementById('portalBlockAds'),
+        portalAutoMain: document.getElementById('portalAutoMain'),
+        elearnMssv: document.getElementById('elearnMssv'),
+        elearnPassword: document.getElementById('elearnPassword'),
+        elearnAutoLogin: document.getElementById('elearnAutoLogin'),
+        elearnKeepAlive: document.getElementById('elearnKeepAlive'),
+        elearnAutoDashboard: document.getElementById('elearnAutoDashboard')
+    };
 
     let currentTab = 'portal';
     let isPortalActive = true;
@@ -12,68 +30,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateToggleButton() {
         if (currentTab === 'portal') {
-            if (isPortalActive) {
-                toggleExtBtn.textContent = 'Portal: ON (Click to Pause)';
-                toggleExtBtn.className = 'btn-portal';
-            } else {
-                toggleExtBtn.textContent = 'Portal: PAUSED (Click to Start)';
-                toggleExtBtn.className = 'btn-dark';
-            }
+            elements.toggleExtBtn.textContent = isPortalActive ? 'Portal: ON (Click to Pause)' : 'Portal: PAUSED (Click to Start)';
+            elements.toggleExtBtn.className = isPortalActive ? 'btn-portal' : 'btn-dark';
         } else {
-            if (isElearnActive) {
-                toggleExtBtn.textContent = 'E-Learn: ON (Click to Pause)';
-                toggleExtBtn.className = 'btn-elearn';
-            } else {
-                toggleExtBtn.textContent = 'E-Learn: PAUSED (Click to Start)';
-                toggleExtBtn.className = 'btn-dark';
-            }
+            elements.toggleExtBtn.textContent = isElearnActive ? 'E-Learn: ON (Click to Pause)' : 'E-Learn: PAUSED (Click to Start)';
+            elements.toggleExtBtn.className = isElearnActive ? 'btn-elearn' : 'btn-dark';
         }
     }
 
-    tabPortal.addEventListener('click', () => {
+    elements.tabPortal.addEventListener('click', () => {
         currentTab = 'portal';
-        tabPortal.classList.add('active');
-        tabElearn.classList.remove('active');
-        settingsPortal.classList.add('active');
-        settingsElearn.classList.remove('active');
-        saveBtn.className = 'btn-portal';
+        elements.tabPortal.classList.add('active');
+        elements.tabElearn.classList.remove('active');
+        elements.settingsPortal.classList.add('active');
+        elements.settingsElearn.classList.remove('active');
+        elements.saveBtn.className = 'btn-portal';
         updateToggleButton();
     });
 
-    tabElearn.addEventListener('click', () => {
+    elements.tabElearn.addEventListener('click', () => {
         currentTab = 'elearn';
-        tabElearn.classList.add('active');
-        tabPortal.classList.remove('active');
-        settingsElearn.classList.add('active');
-        settingsPortal.classList.remove('active');
-        saveBtn.className = 'btn-elearn';
+        elements.tabElearn.classList.add('active');
+        elements.tabPortal.classList.remove('active');
+        elements.settingsElearn.classList.add('active');
+        elements.settingsPortal.classList.remove('active');
+        elements.saveBtn.className = 'btn-elearn';
         updateToggleButton();
     });
 
     chrome.storage.local.get([
-        'isPortalActive', 'isElearnActive',
-        'portalMssv', 'portalPassword', 'portalAutoLogin', 'portalKeepAlive', 'portalBlockAds', 'portalAutoMain',
-        'elearnMssv', 'elearnPassword', 'elearnAutoLogin', 'elearnKeepAlive', 'elearnAutoDashboard'
+        'isPortalActive', 'isElearnActive', ...Object.keys(inputs)
     ], (data) => {
         isPortalActive = data.isPortalActive !== false;
         isElearnActive = data.isElearnActive !== false;
         updateToggleButton();
 
-        if (data.portalMssv) document.getElementById('portalMssv').value = data.portalMssv;
-        if (data.portalPassword) document.getElementById('portalPassword').value = data.portalPassword;
-        if (data.portalAutoLogin !== undefined) document.getElementById('portalAutoLogin').checked = data.portalAutoLogin;
-        if (data.portalKeepAlive !== undefined) document.getElementById('portalKeepAlive').checked = data.portalKeepAlive;
-        if (data.portalBlockAds !== undefined) document.getElementById('portalBlockAds').checked = data.portalBlockAds;
-        if (data.portalAutoMain !== undefined) document.getElementById('portalAutoMain').checked = data.portalAutoMain;
-
-        if (data.elearnMssv) document.getElementById('elearnMssv').value = data.elearnMssv;
-        if (data.elearnPassword) document.getElementById('elearnPassword').value = data.elearnPassword;
-        if (data.elearnAutoLogin !== undefined) document.getElementById('elearnAutoLogin').checked = data.elearnAutoLogin;
-        if (data.elearnKeepAlive !== undefined) document.getElementById('elearnKeepAlive').checked = data.elearnKeepAlive;
-        if (data.elearnAutoDashboard !== undefined) document.getElementById('elearnAutoDashboard').checked = data.elearnAutoDashboard;
+        for (const [key, element] of Object.entries(inputs)) {
+            if (data[key] !== undefined) {
+                if (element.type === 'checkbox') {
+                    element.checked = data[key];
+                } else {
+                    element.value = data[key];
+                }
+            }
+        }
     });
 
-    toggleExtBtn.addEventListener('click', () => {
+    elements.toggleExtBtn.addEventListener('click', () => {
         if (currentTab === 'portal') {
             isPortalActive = !isPortalActive;
             chrome.storage.local.set({ isPortalActive }, updateToggleButton);
@@ -83,27 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('saveBtn').addEventListener('click', () => {
-        const portalMssv = document.getElementById('portalMssv').value;
-        const portalPassword = document.getElementById('portalPassword').value;
-        const portalAutoLogin = document.getElementById('portalAutoLogin').checked;
-        const portalKeepAlive = document.getElementById('portalKeepAlive').checked;
-        const portalBlockAds = document.getElementById('portalBlockAds').checked;
-        const portalAutoMain = document.getElementById('portalAutoMain').checked;
+    elements.saveBtn.addEventListener('click', () => {
+        const dataToSave = {};
+        for (const [key, element] of Object.entries(inputs)) {
+            dataToSave[key] = element.type === 'checkbox' ? element.checked : element.value;
+        }
 
-        const elearnMssv = document.getElementById('elearnMssv').value;
-        const elearnPassword = document.getElementById('elearnPassword').value;
-        const elearnAutoLogin = document.getElementById('elearnAutoLogin').checked;
-        const elearnKeepAlive = document.getElementById('elearnKeepAlive').checked;
-        const elearnAutoDashboard = document.getElementById('elearnAutoDashboard').checked;
-
-        chrome.storage.local.set({
-            portalMssv, portalPassword, portalAutoLogin, portalKeepAlive, portalBlockAds, portalAutoMain,
-            elearnMssv, elearnPassword, elearnAutoLogin, elearnKeepAlive, elearnAutoDashboard
-        }, () => {
-            const status = document.getElementById('status');
-            status.style.display = 'block';
-            setTimeout(() => status.style.display = 'none', 2000);
+        chrome.storage.local.set(dataToSave, () => {
+            elements.status.style.display = 'block';
+            setTimeout(() => elements.status.style.display = 'none', 2000);
         });
     });
 });
