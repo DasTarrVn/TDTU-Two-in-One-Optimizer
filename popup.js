@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsElearn: document.getElementById('settingsElearn'),
         saveBtn: document.getElementById('saveBtn'),
         toggleExtBtn: document.getElementById('toggleExtBtn'),
-        status: document.getElementById('status')
+        status: document.getElementById('status'),
+        tkbSubOptions: document.getElementById('tkbSubOptions')
     };
 
     const inputs = {
@@ -17,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         portalKeepAlive: document.getElementById('portalKeepAlive'),
         portalBlockAds: document.getElementById('portalBlockAds'),
         portalAutoMain: document.getElementById('portalAutoMain'),
+        portalAutoTKB: document.getElementById('portalAutoTKB'),
+        portalTKBWeekly: document.getElementById('portalTKBWeekly'),
+        portalTKBSemester: document.getElementById('portalTKBSemester'),
         elearnMssv: document.getElementById('elearnMssv'),
         elearnPassword: document.getElementById('elearnPassword'),
         elearnAutoLogin: document.getElementById('elearnAutoLogin'),
@@ -27,6 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTab = 'portal';
     let isPortalActive = true;
     let isElearnActive = true;
+
+    function updateTKBSubOptions() {
+        if (inputs.portalAutoTKB.checked) {
+            elements.tkbSubOptions.classList.add('expanded');
+        } else {
+            elements.tkbSubOptions.classList.remove('expanded');
+        }
+    }
+
+    // Toggle sub-options when the main TKB checkbox changes
+    inputs.portalAutoTKB.addEventListener('change', updateTKBSubOptions);
 
     function updateToggleButton() {
         if (currentTab === 'portal') {
@@ -74,6 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+
+        // Update sub-options visibility after loading saved state
+        updateTKBSubOptions();
     });
 
     elements.toggleExtBtn.addEventListener('click', () => {
@@ -89,7 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.saveBtn.addEventListener('click', () => {
         const dataToSave = {};
         for (const [key, element] of Object.entries(inputs)) {
-            dataToSave[key] = element.type === 'checkbox' ? element.checked : element.value;
+            if (element.type === 'checkbox') {
+                dataToSave[key] = element.checked;
+            } else {
+                dataToSave[key] = element.value;
+            }
         }
 
         chrome.storage.local.set(dataToSave, () => {

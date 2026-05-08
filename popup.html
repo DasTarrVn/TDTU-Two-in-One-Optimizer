@@ -113,6 +113,50 @@
             color: #333;
         }
 
+        .sub-options {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            padding-left: 24px;
+        }
+
+        .sub-options.expanded {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .sub-options .checkbox-group {
+            margin-bottom: 8px;
+        }
+
+        .sub-options .input-group {
+            margin-bottom: 8px;
+        }
+
+        .sub-options .input-group label {
+            font-size: 11px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        .sub-options .input-group select {
+            width: 100%;
+            padding: 6px 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            font-size: 12px;
+            background: #fff;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .sub-options .input-group select:focus {
+            border-color: #888;
+        }
+
         button {
             width: 100%;
             padding: 10px;
@@ -204,6 +248,29 @@
             <div class="checkbox-group">
                 <input type="checkbox" id="portalAutoMain">
                 <label for="portalAutoMain">Direct to "Trang chủ" from CTTSV</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="portalAutoTKB">
+                <label for="portalAutoTKB">Automatically enter the timetable</label>
+            </div>
+            <div id="tkbSubOptions" class="sub-options">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="portalTKBWeekly">
+                    <label for="portalTKBWeekly">See the weekly schedule</label>
+                </div>
+                <div class="input-group">
+                    <label for="portalTKBSemester">Select semester:</label>
+                    <select id="portalTKBSemester">
+                        <option value="">-- Default (no change) --</option>
+                        <option value="138">HK hè/2026-2027</option>
+                        <option value="137">HK2/2026-2027</option>
+                        <option value="139">HK dự thính 1/2026-2027</option>
+                        <option value="140">HK dự thính 2/2026-2027</option>
+                        <option value="136">HK1/2026-2027</option>
+                        <option value="133">HK Hè/2025-2026</option>
+                        <option value="132">HK2/2025-2026</option>
+                    </select>
+                </div>
             </div>
         </div>
 

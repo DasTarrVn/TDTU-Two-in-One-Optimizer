@@ -1,6 +1,7 @@
 // content.js
 const PORTAL_HOSTNAME = 'stdportal.tdtu.edu.vn';
 const ELEARN_HOSTNAME = 'elearning.tdtu.edu.vn';
+const TKB_HOSTNAME = 'lichhoc-lichthi.tdtu.edu.vn';
 
 function triggerInputEvents(element, value) {
     if (element && value) {
@@ -12,24 +13,35 @@ function triggerInputEvents(element, value) {
 
 function handlePortal(data, currentUrl) {
     if (data.portalBlockAds) {
-        // Use MutationObserver for better performance than setInterval
-        const observer = new MutationObserver((mutations, obs) => {
-            const adBtn = document.querySelector('.bootbox-close-button.close');
-            if (adBtn) {
-                adBtn.click();
-                obs.disconnect(); // Disconnect after closing the ad
-            }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-
         // Initial check in case it's already in the DOM
         const adBtn = document.querySelector('.bootbox-close-button.close');
-        if (adBtn) adBtn.click();
+        if (adBtn) {
+            adBtn.click();
+        } else {
+            // Use MutationObserver for better performance than setInterval
+            const observer = new MutationObserver((mutations, obs) => {
+                const btn = document.querySelector('.bootbox-close-button.close');
+                if (btn) {
+                    btn.click();
+                    obs.disconnect(); // Disconnect after closing the ad
+                }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
     }
 
     if (data.portalAutoMain && window.location.pathname === '/' && window.location.search.toLowerCase().includes('token=')) {
         window.location.pathname = '/main';
         return;
+    }
+
+    // Auto-click the timetable link on the portal main page
+    if (data.portalAutoTKB && window.location.pathname.toLowerCase() === '/main') {
+        const tkbLink = document.querySelector('a[data-id="daotao"][href*="lichhoc-lichthi.tdtu.edu.vn/tkb2.aspx"]');
+        if (tkbLink) {
+            tkbLink.click();
+            return;
+        }
     }
 
     const hasLoginForm = document.getElementById('txtUser') || document.getElementById('btnLogIn');
@@ -122,9 +134,46 @@ function handleElearning(data, currentUrl) {
     }
 }
 
+function handleTimetable(data) {
+    if (!data.portalAutoTKB) return;
+
+    const currentPath = window.location.pathname.toLowerCase();
+    if (!currentPath.includes('tkb2.aspx')) return;
+
+    // Select semester if specified
+    if (data.portalTKBSemester) {
+        const semesterSelect = document.getElementById('ThoiKhoaBieu1_cboHocKy');
+        if (semesterSelect && semesterSelect.value !== data.portalTKBSemester) {
+            semesterSelect.value = data.portalTKBSemester;
+            // Trigger the ASP.NET postback
+            if (typeof __doPostBack === 'function') {
+                __doPostBack('ThoiKhoaBieu1$cboHocKy', '');
+            } else {
+                semesterSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            return; // Page will reload after postback, weekly will be handled on next load
+        }
+    }
+
+    // Click weekly schedule radio if enabled
+    if (data.portalTKBWeekly) {
+        const weeklyRadio = document.getElementById('ThoiKhoaBieu1_radXemTKBTheoTuan');
+        if (weeklyRadio && !weeklyRadio.checked) {
+            weeklyRadio.checked = true;
+            // Trigger the ASP.NET postback
+            if (typeof __doPostBack === 'function') {
+                __doPostBack('ThoiKhoaBieu1$radXemTKBTheoTuan', '');
+            } else {
+                weeklyRadio.dispatchEvent(new Event('click', { bubbles: true }));
+            }
+        }
+    }
+}
+
 chrome.storage.local.get([
     'isPortalActive', 'isElearnActive',
     'portalMssv', 'portalPassword', 'portalAutoLogin', 'portalKeepAlive', 'portalBlockAds', 'portalAutoMain',
+    'portalAutoTKB', 'portalTKBWeekly', 'portalTKBSemester',
     'elearnMssv', 'elearnPassword', 'elearnAutoLogin', 'elearnKeepAlive', 'elearnAutoDashboard'
 ], (data) => {
     const portalActive = data.isPortalActive !== false;
@@ -134,6 +183,10 @@ chrome.storage.local.get([
 
     if (hostname.includes(PORTAL_HOSTNAME) && portalActive) {
         handlePortal(data, currentUrl);
+    }
+
+    if (hostname.includes(TKB_HOSTNAME) && portalActive) {
+        handleTimetable(data);
     }
 
     if (hostname.includes(ELEARN_HOSTNAME) && elearnActive) {

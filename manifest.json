@@ -19,7 +19,8 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*.tdtu.edu.vn/*"
+                "*://*.tdtu.edu.vn/*",
+                "*://lichhoc-lichthi.tdtu.edu.vn/*"
             ],
             "js": [
                 "content.js"
